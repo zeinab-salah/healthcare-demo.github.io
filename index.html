@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MediCare Plus - Healthcare Services</title>
+  <style>
+/* Healthcare Services Demo - Blue & Gold Theme */
+:root {
+  --blue-dark: #0d2b4e;
+  --blue-primary: #1a4a7a;
+  --blue-medium: #2d6a9f;
+  --blue-light: #4a90c4;
+  --blue-pale: #e8f2fa;
+  --gold-dark: #9a7b1a;
+  --gold-primary: #c9a227;
+  --gold-light: #e8c547;
+  --gold-pale: #fdf6e3;
+  --white: #ffffff;
+  --gray-100: #f7f9fc;
+  --gray-200: #e2e8f0;
+  --gray-600: #64748b;
+  --gray-800: #1e293b;
+  --shadow: 0 4px 20px rgba(13, 43, 78, 0.12);
+  --shadow-lg: 0 10px 40px rgba(13, 43, 78, 0.18);
+  --radius: 12px;
+  --transition: 0.3s ease;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;color:var(--gray-800);line-height:1.6;background:var(--gray-100)}
+body[dir="rtl"]{font-family:'Segoe UI','Tahoma','Arial',sans-serif}
+img{max-width:100%;height:auto}
+a{text-decoration:none;color:inherit;transition:color var(--transition)}
+ul{list-style:none}
+.container{width:100%;max-width:1200px;margin:0 auto;padding:0 1.25rem}
+.page{display:none}
+.page.active{display:block}
+.header{background:linear-gradient(135deg,var(--blue-dark) 0%,var(--blue-primary) 100%);position:sticky;top:0;z-index:1000;box-shadow:var(--shadow)}
+.header-top{background:var(--blue-dark);padding:.4rem 0;font-size:.85rem;color:rgba(255,255,255,.85)}
+.header-top .container{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem}
+.header-contact{display:flex;gap:1.5rem;flex-wrap:wrap}
+.lang-switch{display:flex;gap:.25rem}
+.lang-btn{background:transparent;border:1px solid rgba(255,255,255,.3);color:var(--white);padding:.2rem .75rem;border-radius:4px;cursor:pointer;font-size:.8rem;transition:all var(--transition)}
+.lang-btn:hover,.lang-btn.active{background:var(--gold-primary);border-color:var(--gold-primary);color:var(--blue-dark);font-weight:600}
+.navbar{padding:.75rem 0}
+.navbar .container{display:flex;justify-content:space-between;align-items:center}
+.logo{display:flex;align-items:center;gap:.75rem;color:var(--white);cursor:pointer}
+.logo-icon{width:48px;height:48px;background:linear-gradient(135deg,var(--gold-primary),var(--gold-light));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.5rem;box-shadow:0 2px 10px rgba(201,162,39,.4)}
+.logo-text h1{font-size:1.25rem;font-weight:700;line-height:1.2}
+.logo-text span{font-size:.75rem;color:var(--gold-light);opacity:.9}
+.nav-menu{display:flex;align-items:center;gap:.25rem}
+.nav-link{color:rgba(255,255,255,.9);padding:.6rem 1rem;border-radius:8px;font-size:.95rem;font-weight:500;transition:all var(--transition);cursor:pointer}
+.nav-link:hover,.nav-link.active{background:rgba(255,255,255,.12);color:var(--gold-light)}
+.nav-portals{display:flex;gap:.5rem;margin-inline-start:.5rem}
+.btn-portal{padding:.5rem 1rem;border-radius:8px;font-size:.85rem;font-weight:600;transition:all var(--transition);cursor:pointer}
+.btn-patient{background:var(--gold-primary);color:var(--blue-dark)}
+.btn-patient:hover{background:var(--gold-light);transform:translateY(-1px)}
+.btn-doctor{background:transparent;border:2px solid var(--gold-primary);color:var(--gold-light)}
+.btn-doctor:hover{background:var(--gold-primary);color:var(--blue-dark)}
+.menu-toggle{display:none;background:none;border:none;color:var(--white);font-size:1.75rem;cursor:pointer;padding:.25rem}
+.hero{background:linear-gradient(135deg,var(--blue-primary) 0%,var(--blue-medium) 50%,var(--blue-light) 100%);color:var(--white);padding:5rem 0;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-50%;right:-20%;width:60%;height:200%;background:radial-gradient(circle,rgba(201,162,39,.15) 0%,transparent 70%);pointer-events:none}
+.hero .container{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;position:relative}
+.hero-content h2{font-size:2.75rem;font-weight:700;line-height:1.2;margin-bottom:1rem}
+.hero-content h2 span{color:var(--gold-light)}
+.hero-content p{font-size:1.15rem;opacity:.9;margin-bottom:2rem;max-width:500px}
+.hero-buttons{display:flex;gap:1rem;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.85rem 1.75rem;border-radius:var(--radius);font-size:1rem;font-weight:600;cursor:pointer;border:none;transition:all var(--transition)}
+.btn-primary{background:linear-gradient(135deg,var(--gold-primary),var(--gold-light));color:var(--blue-dark);box-shadow:0 4px 15px rgba(201,162,39,.35)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 6px 25px rgba(201,162,39,.45)}
+.btn-outline{background:transparent;border:2px solid var(--white);color:var(--white)}
+.btn-outline:hover{background:var(--white);color:var(--blue-primary)}
+.hero-visual{display:flex;justify-content:center}
+.hero-card{background:rgba(255,255,255,.1);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:2.5rem;text-align:center;max-width:350px}
+.hero-card .icon{font-size:4rem;margin-bottom:1rem}
+.hero-card h3{font-size:1.5rem;margin-bottom:.5rem;color:var(--gold-light)}
+.section{padding:5rem 0}
+.section-header{text-align:center;margin-bottom:3rem}
+.section-header h2{font-size:2.25rem;color:var(--blue-dark);margin-bottom:.75rem}
+.section-header h2::after{content:'';display:block;width:60px;height:4px;background:linear-gradient(90deg,var(--gold-primary),var(--gold-light));margin:.75rem auto 0;border-radius:2px}
+.section-header p{color:var(--gray-600);font-size:1.1rem;max-width:600px;margin:0 auto}
+.services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem}
+.service-card{background:var(--white);border-radius:var(--radius);padding:2rem;box-shadow:var(--shadow);transition:all var(--transition);border-top:4px solid var(--gold-primary)}
+.service-card:hover{transform:translateY(-5px);box-shadow:var(--shadow-lg)}
+.service-icon{width:60px;height:60px;background:linear-gradient(135deg,var(--blue-pale),var(--blue-light));border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.75rem;margin-bottom:1.25rem}
+.service-card h3{font-size:1.25rem;color:var(--blue-dark);margin-bottom:.75rem}
+.service-card p{color:var(--gray-600);font-size:.95rem}
+.stats{background:linear-gradient(135deg,var(--blue-dark),var(--blue-primary));padding:4rem 0}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:2rem;text-align:center}
+.stat-item h3{font-size:2.75rem;color:var(--gold-light);font-weight:700}
+.stat-item p{color:rgba(255,255,255,.85);font-size:1rem;margin-top:.25rem}
+.cta{background:var(--gold-pale);padding:4rem 0}
+.cta-box{background:linear-gradient(135deg,var(--blue-primary),var(--blue-medium));border-radius:20px;padding:3rem;text-align:center;color:var(--white);box-shadow:var(--shadow-lg)}
+.cta-box h2{font-size:2rem;margin-bottom:1rem}
+.cta-box p{opacity:.9;margin-bottom:2rem;max-width:500px;margin-left:auto;margin-right:auto}
+.page-header{background:linear-gradient(135deg,var(--blue-dark),var(--blue-primary));color:var(--white);padding:4rem 0;text-align:center}
+.page-header h1{font-size:2.5rem;margin-bottom:.5rem}
+.page-header p{opacity:.85;font-size:1.1rem}
+.breadcrumb{display:flex;justify-content:center;gap:.5rem;margin-top:1rem;font-size:.9rem;opacity:.8}
+.breadcrumb a:hover{color:var(--gold-light)}
+.about-content{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
+.about-image{background:linear-gradient(135deg,var(--blue-pale),var(--gold-pale));border-radius:20px;padding:3rem;text-align:center;font-size:6rem}
+.about-text h2{font-size:2rem;color:var(--blue-dark);margin-bottom:1rem}
+.about-text p{color:var(--gray-600);margin-bottom:1rem}
+.values-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.5rem;margin-top:3rem}
+.value-card{background:var(--white);padding:1.75rem;border-radius:var(--radius);box-shadow:var(--shadow);border-inline-start:4px solid var(--gold-primary)}
+.value-card h3{color:var(--blue-primary);margin-bottom:.5rem}
+.bg-blue-pale{background:var(--blue-pale)}
+.contact-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:2.5rem}
+.contact-info{display:flex;flex-direction:column;gap:1.5rem}
+.contact-card{background:var(--white);padding:1.5rem;border-radius:var(--radius);box-shadow:var(--shadow);display:flex;gap:1rem;align-items:flex-start}
+.contact-card .icon{width:50px;height:50px;background:linear-gradient(135deg,var(--blue-primary),var(--blue-light));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.25rem;flex-shrink:0}
+.contact-card h3{color:var(--blue-dark);font-size:1rem;margin-bottom:.25rem}
+.contact-card p{color:var(--gray-600);font-size:.95rem}
+.contact-hours{white-space:pre-line}
+.contact-form{background:var(--white);padding:2rem;border-radius:var(--radius);box-shadow:var(--shadow)}
+.contact-form h2{color:var(--blue-dark);margin-bottom:1.5rem}
+.form-group{margin-bottom:1.25rem}
+.form-group label{display:block;margin-bottom:.4rem;font-weight:500;color:var(--blue-dark);font-size:.9rem}
+.form-group input,.form-group textarea,.form-group select{width:100%;padding:.85rem 1rem;border:2px solid var(--gray-200);border-radius:8px;font-size:1rem;font-family:inherit;transition:border-color var(--transition)}
+.form-group input:focus,.form-group textarea:focus,.form-group select:focus{outline:none;border-color:var(--blue-light)}
+.form-group textarea{resize:vertical;min-height:120px}
+.portal-hero{background:linear-gradient(135deg,var(--blue-dark),var(--blue-primary));padding:3rem 0;color:var(--white)}
+.portal-hero .container{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1.5rem}
+.portal-hero h1{font-size:2rem}
+.portal-hero p{opacity:.85}
+.portal-content{padding:3rem 0}
+.portal-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem}
+.portal-card{background:var(--white);border-radius:var(--radius);padding:2rem;box-shadow:var(--shadow);transition:all var(--transition)}
+.portal-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+.portal-card .card-icon{font-size:2.5rem;margin-bottom:1rem}
+.portal-card h3{color:var(--blue-dark);margin-bottom:.75rem}
+.portal-card p{color:var(--gray-600);font-size:.95rem;margin-bottom:1.25rem}
+.portal-card .btn{width:100%;justify-content:center}
+.login-box{max-width:450px;margin:0 auto;background:var(--white);padding:2.5rem;border-radius:var(--radius);box-shadow:var(--shadow-lg)}
+.login-box h2{text-align:center;color:var(--blue-dark);margin-bottom:.5rem}
+.login-box .subtitle{text-align:center;color:var(--gray-600);margin-bottom:2rem;font-size:.95rem}
+.login-box .form-group{margin-bottom:1rem}
+.login-footer{text-align:center;margin-top:1.5rem;font-size:.9rem;color:var(--gray-600)}
+.login-footer a{color:var(--blue-primary);font-weight:600}
+.login-footer a:hover{color:var(--gold-primary)}
+.departments-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem}
+.department-card{background:var(--white);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);transition:all var(--transition)}
+.department-card:hover{transform:translateY(-5px);box-shadow:var(--shadow-lg)}
+.department-header{background:linear-gradient(135deg,var(--blue-primary),var(--blue-medium));color:var(--white);padding:1.5rem;display:flex;align-items:center;gap:1rem}
+.department-header.emergency{background:linear-gradient(135deg,#8b0000,#c41e3a)}
+.department-header .icon{font-size:2rem}
+.department-body{padding:1.5rem}
+.department-body p{color:var(--gray-600);font-size:.95rem;margin-bottom:1rem}
+.department-body .hours{display:flex;align-items:center;gap:.5rem;color:var(--gold-dark);font-weight:600;font-size:.9rem}
+.schedule-table{width:100%;background:var(--white);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);margin-top:2rem}
+.schedule-table table{width:100%;border-collapse:collapse}
+.schedule-table th{background:var(--blue-primary);color:var(--white);padding:1rem;text-align:start;font-weight:600}
+.schedule-table td{padding:1rem;border-bottom:1px solid var(--gray-200)}
+.schedule-table tr:hover td{background:var(--blue-pale)}
+.footer{background:var(--blue-dark);color:rgba(255,255,255,.85);padding:4rem 0 0}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:2rem;padding-bottom:3rem;border-bottom:1px solid rgba(255,255,255,.1)}
+.footer-brand .logo{margin-bottom:1rem}
+.footer-brand p{font-size:.9rem;line-height:1.7;opacity:.8}
+.footer h4{color:var(--gold-light);font-size:1.1rem;margin-bottom:1.25rem}
+.footer-links li{margin-bottom:.6rem}
+.footer-links a{font-size:.9rem;opacity:.8;transition:all var(--transition);cursor:pointer}
+.footer-links a:hover{color:var(--gold-light);opacity:1;padding-inline-start:5px}
+.footer-bottom{padding:1.5rem 0;text-align:center;font-size:.85rem;opacity:.7}
+.mb-3{margin-bottom:3rem}
+.mt-4{margin-top:4rem}
+.pt-0{padding-top:0}
+.w-100{width:100%}
+.flex-check{display:flex;align-items:center;gap:.5rem}
+@media(max-width:992px){.hero .container,.about-content,.contact-grid{grid-template-columns:1fr}.hero-visual{order:-1}.footer-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:768px){.menu-toggle{display:block}.nav-menu{position:fixed;top:0;right:-100%;width:80%;max-width:320px;height:100vh;background:var(--blue-dark);flex-direction:column;align-items:stretch;padding:5rem 1.5rem 2rem;gap:.5rem;transition:right var(--transition);box-shadow:-5px 0 30px rgba(0,0,0,.3);overflow-y:auto}body[dir="rtl"] .nav-menu{right:auto;left:-100%;transition:left var(--transition)}.nav-menu.active{right:0}body[dir="rtl"] .nav-menu.active{left:0;right:auto}.nav-link{padding:1rem;border-radius:8px}.nav-portals{flex-direction:column;margin-inline-start:0;margin-top:1rem}.btn-portal{text-align:center;padding:.85rem}.hero-content h2{font-size:2rem}.section-header h2{font-size:1.75rem}.footer-grid{grid-template-columns:1fr;text-align:center}.header-contact{font-size:.75rem}}
+@media(max-width:480px){.hero{padding:3rem 0}.hero-content h2{font-size:1.65rem}.hero-buttons{flex-direction:column}.btn{width:100%;justify-content:center}.stats-grid{grid-template-columns:1fr 1fr}.stat-item h3{font-size:2rem}}
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <div class="header-top">
+      <div class="container">
+        <div class="header-contact">
+          <span data-i18n="phone">📞 +966 11 234 5678</span>
+          <span data-i18n="email">✉️ info@medicareplus.com</span>
+        </div>
+        <div class="lang-switch">
+          <button class="lang-btn active" data-lang="en">EN</button>
+          <button class="lang-btn" data-lang="ar">عربي</button>
+        </div>
+      </div>
+    </div>
+    <nav class="navbar">
+      <div class="container">
+        <div class="logo" data-page="home">
+          <div class="logo-icon">⚕</div>
+          <div class="logo-text">
+            <h1 data-i18n="siteName">MediCare Plus</h1>
+            <span data-i18n="siteTagline">Excellence in Healthcare</span>
+          </div>
+        </div>
+        <button class="menu-toggle" aria-label="Menu">☰</button>
+        <div class="nav-menu">
+          <a class="nav-link active" data-page="home" data-i18n="navHome">Home</a>
+          <a class="nav-link" data-page="about" data-i18n="navAbout">About Us</a>
+          <a class="nav-link" data-page="medical-center" data-i18n="navMedicalCenter">Medical Center</a>
+          <a class="nav-link" data-page="contact" data-i18n="navContact">Contact Us</a>
+          <div class="nav-portals">
+            <a class="btn-portal btn-patient" data-page="patient-portal" data-i18n="navPatientPortal">Patient Portal</a>
+            <a class="btn-portal btn-doctor" data-page="doctor-portal" data-i18n="navDoctorPortal">Doctor Portal</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- HOME -->
+  <div id="page-home" class="page active">
+    <section class="hero">
+      <div class="container">
+        <div class="hero-content">
+          <h2><span data-i18n="heroTitle">Your Health, Our</span> <span data-i18n="heroTitleHighlight">Priority</span></h2>
+          <p data-i18n="heroDesc">Providing world-class healthcare services with compassion, innovation, and excellence. Your wellness journey starts here.</p>
+          <div class="hero-buttons">
+            <button class="btn btn-primary" data-page="contact" data-i18n="heroBtnBook">Book Appointment</button>
+            <button class="btn btn-outline" data-page="about" data-i18n="heroBtnLearn">Learn More</button>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="hero-card">
+            <div class="icon">🏥</div>
+            <h3 data-i18n="heroCardTitle">24/7 Emergency Care</h3>
+            <p data-i18n="heroCardDesc">Always here when you need us most</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2 data-i18n="servicesTitle">Our Services</h2>
+          <p data-i18n="servicesDesc">Comprehensive healthcare solutions tailored to your needs</p>
+        </div>
+        <div class="services-grid">
+          <div class="service-card"><div class="service-icon">🩺</div><h3 data-i18n="service1Title">General Medicine</h3><p data-i18n="service1Desc">Complete primary care services for all ages with experienced physicians.</p></div>
+          <div class="service-card"><div class="service-icon">❤️</div><h3 data-i18n="service2Title">Specialized Care</h3><p data-i18n="service2Desc">Expert treatment in cardiology, neurology, orthopedics, and more.</p></div>
+          <div class="service-card"><div class="service-icon">🔬</div><h3 data-i18n="service3Title">Laboratory & Diagnostics</h3><p data-i18n="service3Desc">State-of-the-art lab facilities with accurate and fast results.</p></div>
+          <div class="service-card"><div class="service-icon">💊</div><h3 data-i18n="service4Title">Pharmacy Services</h3><p data-i18n="service4Desc">Full-service pharmacy with prescription and consultation support.</p></div>
+          <div class="service-card"><div class="service-icon">💻</div><h3 data-i18n="service5Title">Telemedicine</h3><p data-i18n="service5Desc">Virtual consultations from the comfort of your home.</p></div>
+          <div class="service-card"><div class="service-icon">📋</div><h3 data-i18n="service6Title">Health Screening</h3><p data-i18n="service6Desc">Preventive health checkups and wellness programs.</p></div>
+        </div>
+      </div>
+    </section>
+    <section class="stats">
+      <div class="container">
+        <div class="stats-grid">
+          <div class="stat-item"><h3>50K+</h3><p data-i18n="statPatients">Happy Patients</p></div>
+          <div class="stat-item"><h3>150+</h3><p data-i18n="statDoctors">Expert Doctors</p></div>
+          <div class="stat-item"><h3>25+</h3><p data-i18n="statYears">Years Experience</p></div>
+          <div class="stat-item"><h3>20+</h3><p data-i18n="statDepartments">Departments</p></div>
+        </div>
+      </div>
+    </section>
+    <section class="cta">
+      <div class="container">
+        <div class="cta-box">
+          <h2 data-i18n="ctaTitle">Ready to Take Care of Your Health?</h2>
+          <p data-i18n="ctaDesc">Book an appointment today or access our patient portal for your medical records.</p>
+          <button class="btn btn-primary" data-page="patient-portal" data-i18n="ctaBtn">Get Started</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ABOUT -->
+  <div id="page-about" class="page">
+    <section class="page-header">
+      <div class="container">
+        <h1 data-i18n="aboutPageTitle">About Us</h1>
+        <p data-i18n="aboutPageDesc">Learn about our mission, vision, and commitment to healthcare excellence</p>
+        <div class="breadcrumb"><a data-page="home" data-i18n="aboutHome">Home</a><span>/</span><span data-i18n="navAbout">About Us</span></div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="about-content">
+          <div class="about-image">🏥</div>
+          <div class="about-text">
+            <h2 data-i18n="aboutTitle">Who We Are</h2>
+            <p data-i18n="aboutP1">MediCare Plus is a leading healthcare institution dedicated to providing exceptional medical services to our community. With over 25 years of experience, we have built a reputation for excellence in patient care.</p>
+            <p data-i18n="aboutP2">Our team of highly qualified physicians, nurses, and healthcare professionals work together to ensure every patient receives personalized, compassionate care using the latest medical technologies.</p>
+            <p data-i18n="aboutP3">We believe that healthcare is a fundamental right, and we strive to make quality medical services accessible to everyone.</p>
+          </div>
+        </div>
+        <div class="values-grid">
+          <div class="value-card"><h3 data-i18n="missionTitle">Our Mission</h3><p data-i18n="missionDesc">To provide accessible, high-quality healthcare that improves lives and strengthens communities.</p></div>
+          <div class="value-card"><h3 data-i18n="visionTitle">Our Vision</h3><p data-i18n="visionDesc">To be the most trusted healthcare provider, recognized for clinical excellence and patient-centered care.</p></div>
+        </div>
+      </div>
+    </section>
+    <section class="section bg-blue-pale pt-0">
+      <div class="container">
+        <div class="section-header">
+          <h2 data-i18n="valuesTitle">Our Values</h2>
+          <p data-i18n="valuesDesc">The principles that guide everything we do</p>
+        </div>
+        <div class="values-grid">
+          <div class="value-card"><h3>💙 <span data-i18n="value1Title">Compassion</span></h3><p data-i18n="value1Desc">Treating every patient with empathy, respect, and dignity.</p></div>
+          <div class="value-card"><h3>⭐ <span data-i18n="value2Title">Excellence</span></h3><p data-i18n="value2Desc">Maintaining the highest standards in medical care and service.</p></div>
+          <div class="value-card"><h3>💡 <span data-i18n="value3Title">Innovation</span></h3><p data-i18n="value3Desc">Embracing new technologies to improve patient outcomes.</p></div>
+          <div class="value-card"><h3>🤝 <span data-i18n="value4Title">Integrity</span></h3><p data-i18n="value4Desc">Operating with honesty, transparency, and ethical practices.</p></div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- CONTACT -->
+  <div id="page-contact" class="page">
+    <section class="page-header">
+      <div class="container">
+        <h1 data-i18n="contactPageTitle">Contact Us</h1>
+        <p data-i18n="contactPageDesc">Get in touch with us for appointments, inquiries, or support</p>
+        <div class="breadcrumb"><a data-page="home" data-i18n="aboutHome">Home</a><span>/</span><span data-i18n="navContact">Contact Us</span></div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="contact-grid">
+          <div class="contact-info">
+            <h2 data-i18n="contactInfo" style="color:var(--blue-dark);margin-bottom:.5rem">Contact Information</h2>
+            <div class="contact-card"><div class="icon">📍</div><div><h3 data-i18n="contactAddress">Address</h3><p data-i18n="contactAddressVal">123 Medical District, Riyadh, Saudi Arabia</p></div></div>
+            <div class="contact-card"><div class="icon">📞</div><div><h3 data-i18n="contactPhone">Phone</h3><p data-i18n="contactPhoneVal">+966 11 234 5678</p></div></div>
+            <div class="contact-card"><div class="icon">✉️</div><div><h3 data-i18n="contactEmail">Email</h3><p data-i18n="contactEmailVal">info@medicareplus.com</p></div></div>
+            <div class="contact-card"><div class="icon">🕐</div><div><h3 data-i18n="contactHours">Working Hours</h3><p class="contact-hours" data-i18n="contactHoursVal">Sun - Thu: 8:00 AM - 10:00 PM&#10;Fri - Sat: 9:00 AM - 6:00 PM</p></div></div>
+          </div>
+          <div class="contact-form">
+            <h2 data-i18n="contactFormTitle">Send Us a Message</h2>
+            <form>
+              <div class="form-group"><label data-i18n="formName">Full Name</label><input type="text" data-i18n-placeholder="formName" placeholder="Full Name" required></div>
+              <div class="form-group"><label data-i18n="formEmail">Email Address</label><input type="email" data-i18n-placeholder="formEmail" placeholder="Email Address" required></div>
+              <div class="form-group"><label data-i18n="formPhone">Phone Number</label><input type="tel" data-i18n-placeholder="formPhone" placeholder="Phone Number"></div>
+              <div class="form-group"><label data-i18n="formSubject">Subject</label>
+                <select required>
+                  <option value="" data-i18n="formSelectSubject">Select a subject</option>
+                  <option value="appointment" data-i18n="formAppointment">Appointment Request</option>
+                  <option value="inquiry" data-i18n="formInquiry">General Inquiry</option>
+                  <option value="feedback" data-i18n="formFeedback">Feedback</option>
+                  <option value="other" data-i18n="formOther">Other</option>
+                </select>
+              </div>
+              <div class="form-group"><label data-i18n="formMessage">Your Message</label><textarea data-i18n-placeholder="formMessage" placeholder="Your Message" required></textarea></div>
+              <button type="submit" class="btn btn-primary w-100" data-i18n="formSubmit">Send Message</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- MEDICAL CENTER -->
+  <div id="page-medical-center" class="page">
+    <section class="page-header">
+      <div class="container">
+        <h1 data-i18n="medicalCenterTitle">Medical Center</h1>
+        <p data-i18n="medicalCenterDesc">Explore our departments, specialists, and services</p>
+        <div class="breadcrumb"><a data-page="home" data-i18n="aboutHome">Home</a><span>/</span><span data-i18n="navMedicalCenter">Medical Center</span></div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="departments-grid">
+          <div class="department-card"><div class="department-header"><span class="icon">❤️</span><h3 data-i18n="deptCardiology">Cardiology</h3></div><div class="department-body"><p data-i18n="deptCardiologyDesc">Comprehensive heart care including diagnostics, treatment, and rehabilitation.</p><div class="hours">🕐 <span data-i18n="deptHours">Open: Sun-Thu 8AM-8PM</span></div></div></div>
+          <div class="department-card"><div class="department-header"><span class="icon">🧠</span><h3 data-i18n="deptNeurology">Neurology</h3></div><div class="department-body"><p data-i18n="deptNeurologyDesc">Expert care for neurological disorders and brain health.</p><div class="hours">🕐 <span data-i18n="deptHours">Open: Sun-Thu 8AM-8PM</span></div></div></div>
+          <div class="department-card"><div class="department-header"><span class="icon">🦴</span><h3 data-i18n="deptOrthopedics">Orthopedics</h3></div><div class="department-body"><p data-i18n="deptOrthopedicsDesc">Treatment for bone, joint, and musculoskeletal conditions.</p><div class="hours">🕐 <span data-i18n="deptHours">Open: Sun-Thu 8AM-8PM</span></div></div></div>
+          <div class="department-card"><div class="department-header"><span class="icon">👶</span><h3 data-i18n="deptPediatrics">Pediatrics</h3></div><div class="department-body"><p data-i18n="deptPediatricsDesc">Specialized healthcare for infants, children, and adolescents.</p><div class="hours">🕐 <span data-i18n="deptHours">Open: Sun-Thu 8AM-8PM</span></div></div></div>
+          <div class="department-card"><div class="department-header emergency"><span class="icon">🚨</span><h3 data-i18n="deptEmergency">Emergency</h3></div><div class="department-body"><p data-i18n="deptEmergencyDesc">24/7 emergency care for critical and urgent medical situations.</p><div class="hours">🕐 <span data-i18n="deptHoursEmergency">Open: 24/7</span></div></div></div>
+          <div class="department-card"><div class="department-header"><span class="icon">📡</span><h3 data-i18n="deptRadiology">Radiology</h3></div><div class="department-body"><p data-i18n="deptRadiologyDesc">Advanced imaging services including MRI, CT, and X-ray.</p><div class="hours">🕐 <span data-i18n="deptHours">Open: Sun-Thu 8AM-8PM</span></div></div></div>
+        </div>
+        <div class="section-header mt-4"><h2 data-i18n="scheduleTitle">Doctor Schedule</h2></div>
+        <div class="schedule-table">
+          <table>
+            <thead><tr><th data-i18n="scheduleDay">Day</th><th data-i18n="scheduleDept">Department</th><th data-i18n="scheduleDoctor">Doctor</th><th data-i18n="scheduleTime">Time</th></tr></thead>
+            <tbody>
+              <tr><td data-i18n="scheduleSun">Sunday</td><td data-i18n="deptCardiology">Cardiology</td><td>Dr. Ahmed Al-Rashid</td><td>9:00 AM - 2:00 PM</td></tr>
+              <tr><td data-i18n="scheduleMon">Monday</td><td data-i18n="deptNeurology">Neurology</td><td>Dr. Sarah Al-Farsi</td><td>10:00 AM - 4:00 PM</td></tr>
+              <tr><td data-i18n="scheduleTue">Tuesday</td><td data-i18n="deptOrthopedics">Orthopedics</td><td>Dr. Mohammed Al-Qahtani</td><td>8:00 AM - 1:00 PM</td></tr>
+              <tr><td data-i18n="scheduleWed">Wednesday</td><td data-i18n="deptPediatrics">Pediatrics</td><td>Dr. Fatima Al-Harbi</td><td>9:00 AM - 3:00 PM</td></tr>
+              <tr><td data-i18n="scheduleThu">Thursday</td><td data-i18n="deptRadiology">Radiology</td><td>Dr. Khalid Al-Otaibi</td><td>8:00 AM - 12:00 PM</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section class="cta">
+      <div class="container">
+        <div class="cta-box">
+          <h2 data-i18n="ctaTitle">Ready to Take Care of Your Health?</h2>
+          <p data-i18n="ctaDesc">Book an appointment today or access our patient portal for your medical records.</p>
+          <button class="btn btn-primary" data-page="contact" data-i18n="heroBtnBook">Book Appointment</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- PATIENT PORTAL -->
+  <div id="page-patient-portal" class="page">
+    <section class="portal-hero">
+      <div class="container">
+        <div><h1 data-i18n="patientPortalTitle">Patient Portal</h1><p data-i18n="patientPortalDesc">Access your medical records, appointments, and health information</p></div>
+        <div style="font-size:3rem">👤</div>
+      </div>
+    </section>
+    <section class="portal-content">
+      <div class="container">
+        <div class="login-box mb-3">
+          <h2 data-i18n="patientLoginTitle">Patient Login</h2>
+          <p class="subtitle" data-i18n="patientLoginDesc">Sign in to access your health dashboard</p>
+          <form>
+            <div class="form-group"><label data-i18n="loginEmail">Email / ID</label><input type="text" data-i18n-placeholder="loginEmail" placeholder="Email / ID" required></div>
+            <div class="form-group"><label data-i18n="loginPassword">Password</label><input type="password" data-i18n-placeholder="loginPassword" placeholder="Password" required></div>
+            <div class="form-group flex-check"><input type="checkbox" id="remember-patient"><label for="remember-patient" data-i18n="loginRemember" style="margin:0">Remember me</label></div>
+            <button type="submit" class="btn btn-primary w-100" data-i18n="loginBtn">Sign In</button>
+            <div class="login-footer">
+              <p><a href="#" data-i18n="loginForgot">Forgot password?</a></p>
+              <p><span data-i18n="loginNoAccount">Don't have an account?</span> <a data-page="contact" data-i18n="loginRegister">Register here</a></p>
+            </div>
+          </form>
+        </div>
+        <div class="section-header"><h2 data-i18n="patientPortalTitle">Patient Portal</h2><p data-i18n="patientPortalDesc">Access your medical records, appointments, and health information</p></div>
+        <div class="portal-grid">
+          <div class="portal-card"><div class="card-icon">📅</div><h3 data-i18n="portalAppointments">Appointments</h3><p data-i18n="portalAppointmentsDesc">View, schedule, or cancel your appointments online.</p><button class="btn btn-primary" data-page="contact" data-i18n="heroBtnBook">Book Appointment</button></div>
+          <div class="portal-card"><div class="card-icon">📋</div><h3 data-i18n="portalRecords">Medical Records</h3><p data-i18n="portalRecordsDesc">Access your test results, prescriptions, and health history.</p><button class="btn btn-primary" data-i18n="loginBtn">Sign In</button></div>
+          <div class="portal-card"><div class="card-icon">💬</div><h3 data-i18n="portalMessages">Messages</h3><p data-i18n="portalMessagesDesc">Communicate securely with your healthcare providers.</p><button class="btn btn-primary" data-i18n="loginBtn">Sign In</button></div>
+          <div class="portal-card"><div class="card-icon">💳</div><h3 data-i18n="portalBilling">Billing</h3><p data-i18n="portalBillingDesc">View and pay your medical bills online.</p><button class="btn btn-primary" data-i18n="loginBtn">Sign In</button></div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- DOCTOR PORTAL -->
+  <div id="page-doctor-portal" class="page">
+    <section class="portal-hero">
+      <div class="container">
+        <div><h1 data-i18n="doctorPortalTitle">Doctor Portal</h1><p data-i18n="doctorPortalDesc">Secure access for healthcare professionals</p></div>
+        <div style="font-size:3rem">👨‍⚕️</div>
+      </div>
+    </section>
+    <section class="portal-content">
+      <div class="container">
+        <div class="login-box mb-3">
+          <h2 data-i18n="doctorLoginTitle">Doctor Login</h2>
+          <p class="subtitle" data-i18n="doctorLoginDesc">Sign in to manage patients and schedules</p>
+          <form>
+            <div class="form-group"><label data-i18n="loginEmail">Email / ID</label><input type="text" data-i18n-placeholder="loginEmail" placeholder="Email / ID" required></div>
+            <div class="form-group"><label data-i18n="loginPassword">Password</label><input type="password" data-i18n-placeholder="loginPassword" placeholder="Password" required></div>
+            <div class="form-group flex-check"><input type="checkbox" id="remember-doctor"><label for="remember-doctor" data-i18n="loginRemember" style="margin:0">Remember me</label></div>
+            <button type="submit" class="btn btn-primary w-100" data-i18n="loginBtn">Sign In</button>
+            <div class="login-footer"><p><a href="#" data-i18n="loginForgot">Forgot password?</a></p></div>
+          </form>
+        </div>
+        <div class="section-header"><h2 data-i18n="doctorPortalTitle">Doctor Portal</h2><p data-i18n="doctorPortalDesc">Secure access for healthcare professionals</p></div>
+        <div class="portal-grid">
+          <div class="portal-card"><div class="card-icon">👥</div><h3 data-i18n="portalPatients">Patient Management</h3><p data-i18n="portalPatientsDesc">View and manage your patient list and records.</p><button class="btn btn-primary" data-i18n="loginBtn">Sign In</button></div>
+          <div class="portal-card"><div class="card-icon">📅</div><h3 data-i18n="portalSchedule">Schedule</h3><p data-i18n="portalScheduleDesc">Manage your appointments and availability.</p><button class="btn btn-primary" data-i18n="loginBtn">Sign In</button></div>
+          <div class="portal-card"><div class="card-icon">📊</div><h3 data-i18n="portalReports">Reports</h3><p data-i18n="portalReportsDesc">Access clinical reports and analytics.</p><button class="btn btn-primary" data-i18n="loginBtn">Sign In</button></div>
+          <div class="portal-card"><div class="card-icon">💊</div><h3 data-i18n="portalPrescriptions">Prescriptions</h3><p data-i18n="portalPrescriptionsDesc">Issue and manage patient prescriptions.</p><button class="btn btn-primary" data-i18n="loginBtn">Sign In</button></div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="logo" data-page="home">
+            <div class="logo-icon">⚕</div>
+            <div class="logo-text"><h1 data-i18n="siteName">MediCare Plus</h1><span data-i18n="siteTagline">Excellence in Healthcare</span></div>
+          </div>
+          <p data-i18n="footerDesc">Leading healthcare provider committed to delivering exceptional medical services with compassion and innovation.</p>
+        </div>
+        <div>
+          <h4 data-i18n="footerQuickLinks">Quick Links</h4>
+          <ul class="footer-links">
+            <li><a data-page="home" data-i18n="navHome">Home</a></li>
+            <li><a data-page="about" data-i18n="navAbout">About Us</a></li>
+            <li><a data-page="medical-center" data-i18n="navMedicalCenter">Medical Center</a></li>
+            <li><a data-page="contact" data-i18n="navContact">Contact Us</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 data-i18n="footerPortals">Portals</h4>
+          <ul class="footer-links">
+            <li><a data-page="patient-portal" data-i18n="navPatientPortal">Patient Portal</a></li>
+            <li><a data-page="doctor-portal" data-i18n="navDoctorPortal">Doctor Portal</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 data-i18n="footerContact">Contact Info</h4>
+          <ul class="footer-links">
+            <li data-i18n="footerAddress">123 Medical District, Riyadh, Saudi Arabia</li>
+            <li data-i18n="contactPhoneVal">+966 11 234 5678</li>
+            <li data-i18n="contactEmailVal">info@medicareplus.com</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom"><p data-i18n="footerCopyright">© 2026 MediCare Plus. All rights reserved.</p></div>
+    </div>
+  </footer>
+
+  <script>
+const translations={en:{siteName:"MediCare Plus",siteTagline:"Excellence in Healthcare",phone:"📞 +966 11 234 5678",email:"✉️ info@medicareplus.com",navHome:"Home",navAbout:"About Us",navContact:"Contact Us",navMedicalCenter:"Medical Center",navPatientPortal:"Patient Portal",navDoctorPortal:"Doctor Portal",heroTitle:"Your Health, Our",heroTitleHighlight:"Priority",heroDesc:"Providing world-class healthcare services with compassion, innovation, and excellence. Your wellness journey starts here.",heroBtnBook:"Book Appointment",heroBtnLearn:"Learn More",heroCardTitle:"24/7 Emergency Care",heroCardDesc:"Always here when you need us most",servicesTitle:"Our Services",servicesDesc:"Comprehensive healthcare solutions tailored to your needs",service1Title:"General Medicine",service1Desc:"Complete primary care services for all ages with experienced physicians.",service2Title:"Specialized Care",service2Desc:"Expert treatment in cardiology, neurology, orthopedics, and more.",service3Title:"Laboratory & Diagnostics",service3Desc:"State-of-the-art lab facilities with accurate and fast results.",service4Title:"Pharmacy Services",service4Desc:"Full-service pharmacy with prescription and consultation support.",service5Title:"Telemedicine",service5Desc:"Virtual consultations from the comfort of your home.",service6Title:"Health Screening",service6Desc:"Preventive health checkups and wellness programs.",statPatients:"Happy Patients",statDoctors:"Expert Doctors",statYears:"Years Experience",statDepartments:"Departments",ctaTitle:"Ready to Take Care of Your Health?",ctaDesc:"Book an appointment today or access our patient portal for your medical records.",ctaBtn:"Get Started",footerDesc:"Leading healthcare provider committed to delivering exceptional medical services with compassion and innovation.",footerQuickLinks:"Quick Links",footerPortals:"Portals",footerContact:"Contact Info",footerAddress:"123 Medical District, Riyadh, Saudi Arabia",footerCopyright:"© 2026 MediCare Plus. All rights reserved.",aboutPageTitle:"About Us",aboutPageDesc:"Learn about our mission, vision, and commitment to healthcare excellence",aboutHome:"Home",aboutTitle:"Who We Are",aboutP1:"MediCare Plus is a leading healthcare institution dedicated to providing exceptional medical services to our community. With over 25 years of experience, we have built a reputation for excellence in patient care.",aboutP2:"Our team of highly qualified physicians, nurses, and healthcare professionals work together to ensure every patient receives personalized, compassionate care using the latest medical technologies.",aboutP3:"We believe that healthcare is a fundamental right, and we strive to make quality medical services accessible to everyone.",missionTitle:"Our Mission",missionDesc:"To provide accessible, high-quality healthcare that improves lives and strengthens communities.",visionTitle:"Our Vision",visionDesc:"To be the most trusted healthcare provider, recognized for clinical excellence and patient-centered care.",valuesTitle:"Our Values",valuesDesc:"The principles that guide everything we do",value1Title:"Compassion",value1Desc:"Treating every patient with empathy, respect, and dignity.",value2Title:"Excellence",value2Desc:"Maintaining the highest standards in medical care and service.",value3Title:"Innovation",value3Desc:"Embracing new technologies to improve patient outcomes.",value4Title:"Integrity",value4Desc:"Operating with honesty, transparency, and ethical practices.",contactPageTitle:"Contact Us",contactPageDesc:"Get in touch with us for appointments, inquiries, or support",contactInfo:"Contact Information",contactAddress:"Address",contactAddressVal:"123 Medical District, Riyadh, Saudi Arabia",contactPhone:"Phone",contactPhoneVal:"+966 11 234 5678",contactEmail:"Email",contactEmailVal:"info@medicareplus.com",contactHours:"Working Hours",contactHoursVal:"Sun - Thu: 8:00 AM - 10:00 PM\nFri - Sat: 9:00 AM - 6:00 PM",contactFormTitle:"Send Us a Message",formName:"Full Name",formEmail:"Email Address",formPhone:"Phone Number",formSubject:"Subject",formMessage:"Your Message",formSubmit:"Send Message",formSelectSubject:"Select a subject",formAppointment:"Appointment Request",formInquiry:"General Inquiry",formFeedback:"Feedback",formOther:"Other",patientPortalTitle:"Patient Portal",patientPortalDesc:"Access your medical records, appointments, and health information",patientLoginTitle:"Patient Login",patientLoginDesc:"Sign in to access your health dashboard",doctorPortalTitle:"Doctor Portal",doctorPortalDesc:"Secure access for healthcare professionals",doctorLoginTitle:"Doctor Login",doctorLoginDesc:"Sign in to manage patients and schedules",loginEmail:"Email / ID",loginPassword:"Password",loginRemember:"Remember me",loginBtn:"Sign In",loginForgot:"Forgot password?",loginNoAccount:"Don't have an account?",loginRegister:"Register here",portalAppointments:"Appointments",portalAppointmentsDesc:"View, schedule, or cancel your appointments online.",portalRecords:"Medical Records",portalRecordsDesc:"Access your test results, prescriptions, and health history.",portalMessages:"Messages",portalMessagesDesc:"Communicate securely with your healthcare providers.",portalBilling:"Billing",portalBillingDesc:"View and pay your medical bills online.",portalPatients:"Patient Management",portalPatientsDesc:"View and manage your patient list and records.",portalSchedule:"Schedule",portalScheduleDesc:"Manage your appointments and availability.",portalReports:"Reports",portalReportsDesc:"Access clinical reports and analytics.",portalPrescriptions:"Prescriptions",portalPrescriptionsDesc:"Issue and manage patient prescriptions.",medicalCenterTitle:"Medical Center",medicalCenterDesc:"Explore our departments, specialists, and services",deptCardiology:"Cardiology",deptCardiologyDesc:"Comprehensive heart care including diagnostics, treatment, and rehabilitation.",deptNeurology:"Neurology",deptNeurologyDesc:"Expert care for neurological disorders and brain health.",deptOrthopedics:"Orthopedics",deptOrthopedicsDesc:"Treatment for bone, joint, and musculoskeletal conditions.",deptPediatrics:"Pediatrics",deptPediatricsDesc:"Specialized healthcare for infants, children, and adolescents.",deptEmergency:"Emergency",deptEmergencyDesc:"24/7 emergency care for critical and urgent medical situations.",deptRadiology:"Radiology",deptRadiologyDesc:"Advanced imaging services including MRI, CT, and X-ray.",deptHours:"Open: Sun-Thu 8AM-8PM",deptHoursEmergency:"Open: 24/7",scheduleTitle:"Doctor Schedule",scheduleDay:"Day",scheduleDept:"Department",scheduleDoctor:"Doctor",scheduleTime:"Time",scheduleSun:"Sunday",scheduleMon:"Monday",scheduleTue:"Tuesday",scheduleWed:"Wednesday",scheduleThu:"Thursday"},ar:{siteName:"ميديكير بلس",siteTagline:"التميز في الرعاية الصحية",phone:"📞 +966 11 234 5678",email:"✉️ info@medicareplus.com",navHome:"الرئيسية",navAbout:"من نحن",navContact:"اتصل بنا",navMedicalCenter:"المركز الطبي",navPatientPortal:"بوابة المريض",navDoctorPortal:"بوابة الطبيب",heroTitle:"صحتك هي",heroTitleHighlight:"أولويتنا",heroDesc:"نقدم خدمات رعاية صحية عالمية المستوى بالتعاطف والابتكار والتميز. رحلة العافية تبدأ من هنا.",heroBtnBook:"حجز موعد",heroBtnLearn:"اعرف المزيد",heroCardTitle:"رعاية طوارئ 24/7",heroCardDesc:"نحن هنا دائماً عندما تحتاجنا",servicesTitle:"خدماتنا",servicesDesc:"حلول رعاية صحية شاملة مصممة لتلبية احتياجاتك",service1Title:"الطب العام",service1Desc:"خدمات رعاية أولية كاملة لجميع الأعمار مع أطباء ذوي خبرة.",service2Title:"الرعاية التخصصية",service2Desc:"علاج متخصص في أمراض القلب والأعصاب والعظام والمزيد.",service3Title:"المختبر والتشخيص",service3Desc:"مرافق مختبرية حديثة مع نتائج دقيقة وسريعة.",service4Title:"خدمات الصيدلية",service4Desc:"صيدلية متكاملة مع دعم الوصفات والاستشارات.",service5Title:"الطب عن بعد",service5Desc:"استشارات افتراضية من راحة منزلك.",service6Title:"الفحص الصحي",service6Desc:"فحوصات صحية وقائية وبرامج العافية.",statPatients:"مريض سعيد",statDoctors:"طبيب خبير",statYears:"سنة خبرة",statDepartments:"قسم طبي",ctaTitle:"هل أنت مستعد للاهتمام بصحتك؟",ctaDesc:"احجز موعداً اليوم أو ادخل إلى بوابة المريض للاطلاع على سجلاتك الطبية.",ctaBtn:"ابدأ الآن",footerDesc:"مزود رعاية صحية رائد ملتزم بتقديم خدمات طبية استثنائية بالتعاطف والابتكار.",footerQuickLinks:"روابط سريعة",footerPortals:"البوابات",footerContact:"معلومات التواصل",footerAddress:"123 الحي الطبي، الرياض، المملكة العربية السعودية",footerCopyright:"© 2026 ميديكير بلس. جميع الحقوق محفوظة.",aboutPageTitle:"من نحن",aboutPageDesc:"تعرف على مهمتنا ورؤيتنا والتزامنا بالتميز في الرعاية الصحية",aboutHome:"الرئيسية",aboutTitle:"من نحن",aboutP1:"ميديكير بلس مؤسسة رعاية صحية رائدة مكرسة لتقديم خدمات طبية استثنائية لمجتمعنا. مع أكثر من 25 عاماً من الخبرة، بنينا سمعة في التميز في رعاية المرضى.",aboutP2:"يعمل فريقنا من الأطباء والممرضين والمتخصصين في الرعاية الصحية المؤهلين تأهيلاً عالياً معاً لضمان حصول كل مريض على رعاية شخصية ومتعاطفة باستخدام أحدث التقنيات الطبية.",aboutP3:"نؤمن بأن الرعاية الصحية حق أساسي، ونسعى لجعل الخدمات الطبية عالية الجودة في متناول الجميع.",missionTitle:"مهمتنا",missionDesc:"تقديم رعاية صحية عالية الجودة ومتاحة تحسن الحياة وتقوي المجتمعات.",visionTitle:"رؤيتنا",visionDesc:"أن نكون مزود الرعاية الصحية الأكثر ثقة، المعروف بالتميز السريري والرعاية المتمحورة حول المريض.",valuesTitle:"قيمنا",valuesDesc:"المبادئ التي توجه كل ما نقوم به",value1Title:"التعاطف",value1Desc:"معاملة كل مريض بالتعاطف والاحترام والكرامة.",value2Title:"التميز",value2Desc:"الحفاظ على أعلى المعايير في الرعاية الطبية والخدمة.",value3Title:"الابتكار",value3Desc:"تبني التقنيات الجديدة لتحسين نتائج المرضى.",value4Title:"النزاهة",value4Desc:"العمل بأمانة وشفافية وممارسات أخلاقية.",contactPageTitle:"اتصل بنا",contactPageDesc:"تواصل معنا للمواعيد والاستفسارات أو الدعم",contactInfo:"معلومات التواصل",contactAddress:"العنوان",contactAddressVal:"123 الحي الطبي، الرياض، المملكة العربية السعودية",contactPhone:"الهاتف",contactPhoneVal:"+966 11 234 5678",contactEmail:"البريد الإلكتروني",contactEmailVal:"info@medicareplus.com",contactHours:"ساعات العمل",contactHoursVal:"الأحد - الخميس: 8:00 ص - 10:00 م\nالجمعة - السبت: 9:00 ص - 6:00 م",contactFormTitle:"أرسل لنا رسالة",formName:"الاسم الكامل",formEmail:"البريد الإلكتروني",formPhone:"رقم الهاتف",formSubject:"الموضوع",formMessage:"رسالتك",formSubmit:"إرسال الرسالة",formSelectSubject:"اختر موضوعاً",formAppointment:"طلب موعد",formInquiry:"استفسار عام",formFeedback:"ملاحظات",formOther:"أخرى",patientPortalTitle:"بوابة المريض",patientPortalDesc:"الوصول إلى سجلاتك الطبية ومواعيدك ومعلوماتك الصحية",patientLoginTitle:"تسجيل دخول المريض",patientLoginDesc:"سجل الدخول للوصول إلى لوحة صحتك",doctorPortalTitle:"بوابة الطبيب",doctorPortalDesc:"وصول آمن للمتخصصين في الرعاية الصحية",doctorLoginTitle:"تسجيل دخول الطبيب",doctorLoginDesc:"سجل الدخول لإدارة المرضى والجداول",loginEmail:"البريد / الرقم",loginPassword:"كلمة المرور",loginRemember:"تذكرني",loginBtn:"تسجيل الدخول",loginForgot:"نسيت كلمة المرور؟",loginNoAccount:"ليس لديك حساب؟",loginRegister:"سجل هنا",portalAppointments:"المواعيد",portalAppointmentsDesc:"عرض وجدولة أو إلغاء مواعيدك عبر الإنترنت.",portalRecords:"السجلات الطبية",portalRecordsDesc:"الوصول إلى نتائج الفحوصات والوصفات والتاريخ الصحي.",portalMessages:"الرسائل",portalMessagesDesc:"التواصل بأمان مع مقدمي الرعاية الصحية.",portalBilling:"الفواتير",portalBillingDesc:"عرض ودفع فواتيرك الطبية عبر الإنترنت.",portalPatients:"إدارة المرضى",portalPatientsDesc:"عرض وإدارة قائمة المرضى والسجلات.",portalSchedule:"الجدول",portalScheduleDesc:"إدارة مواعيدك وتوافرك.",portalReports:"التقارير",portalReportsDesc:"الوصول إلى التقارير السريرية والتحليلات.",portalPrescriptions:"الوصفات الطبية",portalPrescriptionsDesc:"إصدار وإدارة وصفات المرضى.",medicalCenterTitle:"المركز الطبي",medicalCenterDesc:"استكشف أقسامنا وأخصائينا وخدماتنا",deptCardiology:"أمراض القلب",deptCardiologyDesc:"رعاية شاملة للقلب تشمل التشخيص والعلاج وإعادة التأهيل.",deptNeurology:"الأعصاب",deptNeurologyDesc:"رعاية متخصصة للاضطرابات العصبية وصحة الدماغ.",deptOrthopedics:"العظام",deptOrthopedicsDesc:"علاج حالات العظام والمفاصل والجهاز العضلي الهيكلي.",deptPediatrics:"طب الأطفال",deptPediatricsDesc:"رعاية صحية متخصصة للرضع والأطفال والمراهقين.",deptEmergency:"الطوارئ",deptEmergencyDesc:"رعاية طوارئ على مدار الساعة للحالات الحرجة والعاجلة.",deptRadiology:"الأشعة",deptRadiologyDesc:"خدمات تصوير متقدمة تشمل الرنين المغناطيسي والأشعة المقطعية.",deptHours:"مفتوح: الأحد-الخميس 8ص-8م",deptHoursEmergency:"مفتوح: 24/7",scheduleTitle:"جدول الأطباء",scheduleDay:"اليوم",scheduleDept:"القسم",scheduleDoctor:"الطبيب",scheduleTime:"الوقت",scheduleSun:"الأحد",scheduleMon:"الإثنين",scheduleTue:"الثلاثاء",scheduleWed:"الأربعاء",scheduleThu:"الخميس"}};
+let currentLang=localStorage.getItem('lang')||'en';
+let currentPage='home';
+
+function setLanguage(lang){
+  currentLang=lang;
+  localStorage.setItem('lang',lang);
+  document.documentElement.lang=lang;
+  document.body.dir=lang==='ar'?'rtl':'ltr';
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const key=el.getAttribute('data-i18n');
+    if(translations[lang][key]){
+      if(el.tagName==='INPUT'||el.tagName==='TEXTAREA')el.placeholder=translations[lang][key];
+      else if(el.tagName==='OPTION')el.textContent=translations[lang][key];
+      else el.textContent=translations[lang][key];
+    }
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>{
+    const key=el.getAttribute('data-i18n-placeholder');
+    if(translations[lang][key])el.placeholder=translations[lang][key];
+  });
+  document.querySelectorAll('.lang-btn').forEach(btn=>btn.classList.toggle('active',btn.dataset.lang===lang));
+}
+
+function showPage(page){
+  currentPage=page;
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  const target=document.getElementById('page-'+page);
+  if(target){target.classList.add('active');window.scrollTo({top:0,behavior:'smooth'});}
+  document.querySelectorAll('[data-page]').forEach(el=>{
+    if(el.classList.contains('nav-link')||el.classList.contains('btn-portal'))el.classList.toggle('active',el.dataset.page===page);
+  });
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  setLanguage(currentLang);
+  showPage('home');
+
+  document.querySelectorAll('.lang-btn').forEach(btn=>btn.addEventListener('click',()=>setLanguage(btn.dataset.lang)));
+
+  document.querySelectorAll('[data-page]').forEach(el=>{
+    el.addEventListener('click',e=>{
+      e.preventDefault();
+      showPage(el.dataset.page);
+      const navMenu=document.querySelector('.nav-menu');
+      const menuToggle=document.querySelector('.menu-toggle');
+      if(navMenu&&navMenu.classList.contains('active')){navMenu.classList.remove('active');if(menuToggle)menuToggle.textContent='☰';}
+    });
+  });
+
+  const menuToggle=document.querySelector('.menu-toggle');
+  const navMenu=document.querySelector('.nav-menu');
+  if(menuToggle&&navMenu){
+    menuToggle.addEventListener('click',()=>{
+      navMenu.classList.toggle('active');
+      menuToggle.textContent=navMenu.classList.contains('active')?'✕':'☰';
+    });
+  }
+
+  document.querySelectorAll('form').forEach(form=>{
+    form.addEventListener('submit',e=>{
+      e.preventDefault();
+      alert(currentLang==='ar'?'شكراً! سيتم التواصل معك قريباً.':'Thank you! We will get back to you shortly.');
+    });
+  });
+});
+  </script>
+</body>
+</html>
